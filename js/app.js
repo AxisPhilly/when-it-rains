@@ -1,3 +1,3 @@
-if (typeof app === 'undefined' || !app) {
-  var app = {};
-}
+var app = app || {};
+
+
