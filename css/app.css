@@ -1,8 +1,7 @@
 #chart {
-  width: 800px;
-  height: 350px;
-  margin: 30px auto 50px auto;
+  margin: 0 auto;
   font: 11px sans-serif;
+  width: 800px;
   shape-rendering: crispEdges; }
 
 .hour {
