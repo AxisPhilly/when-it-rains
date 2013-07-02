@@ -62,7 +62,7 @@ app.hours = [
 app.run = function() {
   // Dimensions
   var width = 800,
-      height = 420,
+      height = 450,
       cellSize = 30; // cell size
 
   // Add SVG
@@ -140,5 +140,14 @@ app.run = function() {
       .attr("x", 495)
       .attr("y", 417)
       .text("summer in the late afternoon into the early evening.");
+
+    // Add Source
+    svg.append("g")
+        .attr("class", "source")
+      .append("text")
+        .attr("x", 30)
+        .attr("y", 405)
+        .text("Source: Philadelphia Water Department, City of Philadelphia");
+
   });
 };
