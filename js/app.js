@@ -62,7 +62,7 @@ app.hours = [
 app.run = function() {
   // Dimensions
   var width = 800,
-      height = 400,
+      height = 420,
       cellSize = 30; // cell size
 
   // Add SVG
@@ -105,12 +105,40 @@ app.run = function() {
       .attr("class", "label hours")
       .attr("x", function(d, i, j) {
         var labelVal = app.hours[i];
-        if(typeof labelVal === 'number') { 
+        if(typeof labelVal === 'number') {
           return i * cellSize + 27;
         } else {
           return i * cellSize + 22;
         }
       })
       .attr("y", 10);
+
+    // Add annotation
+    svg.append("g")
+        .attr("class", "annotation")
+      .append("rect")
+        .attr("x", 495)
+        .attr("y", 155)
+        .attr("width", function() { return cellSize * 5; })
+        .attr("height", function() { return cellSize * 5; });
+
+    d3.select(".annotation")
+      .append("line")
+        .attr("x1", 525)
+        .attr("y1", 305)
+        .attr("x2", 525)
+        .attr("y2", 390);
+
+    d3.select(".annotation")
+      .append("text")
+      .attr("x", 495)
+      .attr("y", 402)
+      .text("The hours with the most intense rain are during the");
+
+    d3.select(".annotation")
+      .append("text")
+      .attr("x", 495)
+      .attr("y", 417)
+      .text("summer in the late afternoon into the early evening.");
   });
 };

@@ -43,3 +43,19 @@
     font: 11px sans-serif;
   }
 }
+.annotation {
+  fill: #666;
+  font: 11px sans-serif;
+
+  rect {
+    fill: transparent;
+    stroke-width: 1px;
+    stroke: #777;
+  }
+
+  line {
+    fill: transparent;
+    stroke-width: 1px;
+    stroke: #777;
+  }
+}
