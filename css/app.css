@@ -1,0 +1,36 @@
+#chart {
+  width: 800px;
+  height: 350px;
+  margin: 30px auto 50px auto; }
+
+.hour {
+  stroke: #fff;
+  stroke-width: 1px; }
+
+.step0 {
+  fill: #fff;
+  color: #fff; }
+
+.step1 {
+  fill: #eff3ff;
+  color: #eff3ff; }
+
+.step2 {
+  fill: #c6dbef;
+  color: #c6dbef; }
+
+.step3 {
+  fill: #9ecae1;
+  color: #9ecae1; }
+
+.step4 {
+  fill: #6baed6;
+  color: #6baed6; }
+
+.step5 {
+  fill: #3182bd;
+  color: #3182bd; }
+
+.step6 {
+  fill: #08519c;
+  color: #08519c; }
