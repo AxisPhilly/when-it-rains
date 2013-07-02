@@ -1,7 +1,12 @@
 #chart {
   width: 800px;
   height: 350px;
-  margin: 30px auto 50px auto; }
+  margin: 30px auto 50px auto;
+  font: 11px sans-serif;
+  shape-rendering: crispEdges; }
+
+.month-label {
+  fill: #666; }
 
 .hour {
   stroke: #fff;

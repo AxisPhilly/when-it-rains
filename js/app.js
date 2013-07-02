@@ -82,16 +82,24 @@ app.run = function() {
     var months = svg.selectAll(".month")
           .data(data)
         .enter().append("g")
+          .attr('class', 'month')
           .selectAll('.hours')
           .data(function(d, i) { return d;})
         .enter().append("rect")
           .attr("class", function(d) { return 'hour ' + app.getStep(d); })
           .attr("width", cellSize)
           .attr("height", cellSize)
-          .attr("x", function(d, i) { return cellSize * i; })
+          .attr("x", function(d, i) { return cellSize * i + 30; })
           .attr("y", function(d, i, j) { return j * cellSize; })
           .on('mouseover', function(d){
             console.log(d);
           });
+
+    var monthLabels = svg.selectAll(".month")
+      .append("text")
+      .text(function(d, i) { return app.months[i]; })
+      .attr("class", "month-label")
+      .attr("x", 0)
+      .attr("y", function(d, i , j) { return i * cellSize + 22; });
   });
 };
