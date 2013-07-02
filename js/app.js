@@ -32,30 +32,31 @@ app.months = [
 ];
 
 app.hours = [
-  '12 - 1',
-  '1 - 2',
-  '2 - 3',
-  '3 - 4',
-  '4 - 5',
-  '5 - 6',
-  '6 - 7',
-  '7 - 8',
-  '8 - 9',
-  '9 - 10',
-  '10 - 11',
-  '11 - 12',
-  '12 - 1',
-  '1 - 2',
-  '2 - 3',
-  '3 - 4',
-  '4 - 5',
-  '5 - 6',
-  '6 - 7',
-  '7 - 8',
-  '8 - 9',
-  '9 - 10',
-  '10 - 11',
-  '11 - 12'
+  '12am',
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  '10',
+  '11',
+  '12pm',
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  '10',
+  '11',
+  '12'
 ];
 
 app.run = function() {
@@ -71,35 +72,45 @@ app.run = function() {
       .attr("height", height)
     .append("g");
 
-  // Add axes
-  svg.append("text")
-    .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
-    .style("text-anchor", "middle")
-    .text(function(d) { return d; });
-
-  // Add cells for every hour of every month
+  // Get the data
   d3.json('/data/rain.json', function(data) {
+    // Add cells for every hour of every month
     var months = svg.selectAll(".month")
           .data(data)
         .enter().append("g")
           .attr('class', 'month')
           .selectAll('.hours')
           .data(function(d, i) { return d;})
-        .enter().append("rect")
+        .enter().append("g").append("rect")
           .attr("class", function(d) { return 'hour ' + app.getStep(d); })
           .attr("width", cellSize)
           .attr("height", cellSize)
           .attr("x", function(d, i) { return cellSize * i + 30; })
-          .attr("y", function(d, i, j) { return j * cellSize; })
+          .attr("y", function(d, i, j) { return j * cellSize + 20; })
           .on('mouseover', function(d){
             console.log(d);
           });
 
+    // Add labels
     var monthLabels = svg.selectAll(".month")
       .append("text")
       .text(function(d, i) { return app.months[i]; })
-      .attr("class", "month-label")
+      .attr("class", "label month")
       .attr("x", 0)
-      .attr("y", function(d, i , j) { return i * cellSize + 22; });
+      .attr("y", function(d, i, j) { return i * cellSize + 40; });
+
+    var hourLabels = svg.select(".month").selectAll('g')
+      .append("text")
+      .text(function(d, i) { return app.hours[i]; })
+      .attr("class", "label hours")
+      .attr("x", function(d, i, j) {
+        var labelVal = app.hours[i];
+        if(typeof labelVal === 'number') { 
+          return i * cellSize + 27;
+        } else {
+          return i * cellSize + 22;
+        }
+      })
+      .attr("y", 10);
   });
 };

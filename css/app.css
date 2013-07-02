@@ -5,9 +5,6 @@
   font: 11px sans-serif;
   shape-rendering: crispEdges; }
 
-.month-label {
-  fill: #666; }
-
 .hour {
   stroke: #fff;
   stroke-width: 1px; }
@@ -39,3 +36,7 @@
 .step6 {
   fill: #08519c;
   color: #08519c; }
+
+.label.month, .label.hours {
+  fill: #666;
+  font: 11px sans-serif; }
