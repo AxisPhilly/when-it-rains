@@ -77,20 +77,21 @@ app.run = function() {
     .style("text-anchor", "middle")
     .text(function(d) { return d; });
 
-  // Add cells for every hour
+  // Add cells for every hour of every month
   d3.json('/data/rain.json', function(data) {
-    for(var month=0; month<data.length; month++) {
-      var rect = svg.selectAll(".month")
-          .data(data[month])
+    var months = svg.selectAll(".month")
+          .data(data)
+        .enter().append("g")
+          .selectAll('.hours')
+          .data(function(d, i) { return d;})
         .enter().append("rect")
           .attr("class", function(d) { return 'hour ' + app.getStep(d); })
           .attr("width", cellSize)
           .attr("height", cellSize)
           .attr("x", function(d, i) { return cellSize * i; })
-          .attr("y", function(d) { return month * cellSize; })
+          .attr("y", function(d, i, j) { return j * cellSize; })
           .on('mouseover', function(d){
             console.log(d);
           });
-    }
   });
 };
