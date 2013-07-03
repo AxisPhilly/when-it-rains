@@ -17,6 +17,9 @@ module.exports = function(grunt) {
         preserveComments: 'some'
       },
       app: {
+        options: {
+          preserveComments: true
+        },
         files: {
           'www/js/app.min.<%= pkg.version %>.js': 'js/app.js'
         }
