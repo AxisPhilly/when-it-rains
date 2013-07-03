@@ -96,7 +96,7 @@ app.hideTooltip = function() {
 app.getContents = function(id) {
   var data = $('#' + id).data();
 
-  data.rain = Math.round(data.rain * 100) / 100;
+  data.rain = Math.round(data.rain * 10) / 10;
 
   var template = _.template(
     "<em><%= month %>., <%= starthour %>:00 - <%= endhour %>:00</em><br>" +
