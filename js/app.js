@@ -106,6 +106,7 @@ app.getContents = function(id) {
 
 // Create rain gage map
 app.createMap = function() {
+  // adapted from http://bost.ocks.org/mike/map/
   d3.json('/data/city-with-gages-topo.json', function(error, topology) {
     var projection = d3.geo.mercator()
       .center([-75.118, 40.0020])
@@ -142,14 +143,16 @@ app.createMap = function() {
   });
 };
 
-app.run = function() {
-  // Dimensions
+app.createChart = function() {
+ // adapted from http://bl.ocks.org/mbostock/4063318
+ // with some help from http://bost.ocks.org/mike/nest/
+ // Dimensions
   var width = 752,
-      height = 450,
+      height = 475,
       cellSize = 30; // cell size
 
   // Add SVG
-  var svg = d3.select("#chart")
+  app.svg = d3.select("#chart")
     .append("svg")
       .attr("width", width)
       .attr("height", height)
@@ -158,7 +161,7 @@ app.run = function() {
   // Get the data
   d3.json('/data/rain.json', function(data) {
     // Add cells for every hour of every month
-    var months = svg.selectAll(".month")
+    var months = app.svg.selectAll(".month")
           .data(data)
         .enter().append("g")
           .attr('class', 'month')
@@ -191,16 +194,16 @@ app.run = function() {
           });
 
     // Add labels
-    var monthLabels = svg.selectAll(".month")
+    var monthLabels = app.svg.selectAll(".month")
       .append("text")
       .text(function(d, i) { return app.months[i]; })
       .attr("class", "label month")
       .attr("x", 0)
       .attr("y", function(d, i, j) { return i * cellSize + 40; });
 
-    var hourLabels = svg.select(".month").selectAll('g')
+    var hourLabels = app.svg.select(".month").selectAll('g')
       .append("text")
-      .text(function(d, i) { 
+      .text(function(d, i) {
         if(i === 0) {
           return app.hours[i] + 'am';
         } else if (i === 12) {
@@ -223,7 +226,7 @@ app.run = function() {
       .attr("y", 10);
 
     // Add annotation
-    svg.append("g")
+    app.svg.append("g")
         .attr("class", "annotation")
       .append("rect")
         .attr("x", 495)
@@ -251,14 +254,58 @@ app.run = function() {
       .text("summer in the late afternoon into the early evening.");
 
     // Add Source
-    svg.append("g")
+    app.svg.append("g")
         .attr("class", "source")
       .append("text")
         .attr("x", 30)
-        .attr("y", 405)
+        .attr("y", 460)
         .text("Source: Philadelphia Water Department, City of Philadelphia");
 
   });
+};
 
+app.createLegend = function() {
+  // adapted from http://bl.ocks.org/mbostock/5737662
+  var color = d3.scale.threshold()
+    .domain([1, 2, 3, 4, 5, 6, 7])
+    .range(["#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#084594"]);
+
+  var x = d3.scale.linear()
+    .domain([0, 8])
+    .range([0, 180]);
+
+  var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom")
+      .tickSize(10)
+      .tickValues(color.domain());
+
+  var g = app.svg.append("g")
+    .attr("class", "key")
+    .attr("transform", "translate(40,405)");
+
+  g.selectAll("rect")
+      .data(color.range().map(function(d, i) {
+        return {
+          x0: i ? x(color.domain()[i - 1]) : x.range()[0],
+          x1: i < color.domain().length ? x(color.domain()[i]) : x.range()[1],
+          z: d
+        };
+      }))
+    .enter().append("rect")
+      .attr("height", 8)
+      .attr("x", function(d) { return d.x0; })
+      .attr("width", function(d) { return d.x1 - d.x0; })
+      .style("fill", function(d) { return d.z; });
+
+  g.call(xAxis).append("text")
+      .attr("class", "caption")
+      .attr("y", -6)
+      .text("Inches of rainfall");
+};
+
+app.run = function() {
+  app.createChart();
   app.createMap();
+  app.createLegend();
 };
