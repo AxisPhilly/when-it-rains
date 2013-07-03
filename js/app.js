@@ -116,7 +116,9 @@ app.createMap = function() {
       .projection(projection)
       .pointRadius(2);
 
-    var svg = d3.select("#map").append("svg");
+    var svg = d3.select("#map").append("svg")
+        .attr("height", 300)
+        .attr("width", 240);
 
     // Add city limits
     svg.append("path")
@@ -226,7 +228,7 @@ app.run = function() {
       .append("rect")
         .attr("x", 495)
         .attr("y", 155)
-        .attr("width", function() { return cellSize * 5; })
+        .attr("width", function() { return cellSize * 6; })
         .attr("height", function() { return cellSize * 5; });
 
     d3.select(".annotation")
