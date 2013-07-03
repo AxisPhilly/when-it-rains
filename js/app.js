@@ -5,14 +5,20 @@ app.getStep = function(d) {
     return 'step0';
   } else if(d < 1) {
     return 'step1';
-  } else if (d >= 1 && d < 3) {
+  } else if (d >= 1 && d < 2) {
     return 'step2';
-  } else if (d >= 3 && d < 5) {
+  } else if (d >= 2 && d < 3) {
     return 'step3';
-  } else if (d >= 5 && d < 7) {
+  } else if (d >= 3 && d < 4) {
     return 'step4';
-  } else if (d >= 7) {
+  } else if (d >= 4 && d < 5) {
     return 'step5';
+  } else if (d >= 5 && d < 6) {
+    return 'step6';
+  } else if (d >= 6 && d < 7) {
+    return 'step7';
+  } else if (d >= 7) {
+    return 'step8';
   }
 };
 
