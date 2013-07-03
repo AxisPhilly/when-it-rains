@@ -69,7 +69,7 @@ app.createMap = function() {
 
     var path = d3.geo.path()
       .projection(projection)
-      .pointRadius(2);
+      .pointRadius(1.6);
 
     var svg = d3.select("#map").append("svg");
 
