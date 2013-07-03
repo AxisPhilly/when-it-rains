@@ -17,22 +17,22 @@ app.getStep = function(d) {
 };
 
 app.months = [
-  'Jan.',
-  'Feb.',
-  'Mar.',
-  'Apr.',
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
   'May',
-  'Jun.',
-  'Jul.',
-  'Aug.',
-  'Sep.',
-  'Oct.',
-  'Nov.',
-  'Dec.'
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec'
 ];
 
 app.hours = [
-  '12am',
+  '12',
   1,
   2,
   3,
@@ -44,7 +44,7 @@ app.hours = [
   9,
   '10',
   '11',
-  '12pm',
+  '12',
   1,
   2,
   3,
@@ -59,13 +59,52 @@ app.hours = [
   '12'
 ];
 
+app.showTooltip =  function(hourId) {
+  var contents = app.getContents(hourId),
+      $hourPos = $('#' + hourId).position();
+
+  if ($('#tooltip').length) {
+      $('#tooltip').html(contents).show();
+    } else {
+      $('<div/>', {
+        'id': 'tooltip',
+        html: contents
+      }).appendTo('#chart').show();
+    }
+
+  $(document).mousemove(function(e){
+    var posX = $hourPos.left - 55;
+        posY = $hourPos.top - 60;
+
+    $('#tooltip').css({ left: posX, top: posY });
+  });
+};
+
+app.hideTooltip = function() {
+  $('#tooltip').hide();
+  $(document).unbind('mousemove');
+};
+
+app.getContents = function(id) {
+  var data = $('#' + id).data();
+
+  data.rain = Math.round(data.rain * 100) / 100;
+
+  var template = _.template(
+    "<em><%= month %>., <%= starthour %>:00 - <%= endhour %>:00</em><br>" +
+    "<strong><%= rain %></strong> inches since 1990"
+    );
+
+  return template(data);
+};
+
 // Create rain gage map
 app.createMap = function() {
   d3.json('/data/city-with-gages-topo.json', function(error, topology) {
     var projection = d3.geo.mercator()
       .center([-75.118, 40.0020])
       .scale(40000)
-      .translate([120, 140]);
+      .translate([120, 130]);
 
     var path = d3.geo.path()
       .projection(projection)
@@ -88,9 +127,9 @@ app.createMap = function() {
 
     // Add annotation
     svg.append("text")
-      .text("Rain gage locations")
-      .attr("x", 130)
-      .attr("y", 200)
+      .text("PWD Rain Gage Network")
+      .attr("x", 45)
+      .attr("y", 280)
       .attr("class", "annotation");
   });
 };
@@ -121,10 +160,26 @@ app.run = function() {
           .attr("class", function(d) { return 'hour ' + app.getStep(d); })
           .attr("width", cellSize)
           .attr("height", cellSize)
+          .attr("id", function(d, i, j) {
+            var time = 'pm';
+            if (i <= 11) {
+              time = 'am';
+            }
+            return app.months[j] + app.hours[i] + '-' + app.hours[i + 1] + time;
+          })
+          .attr("data-rain", function(d) { return d; })
+          .attr("data-month", function(d, i, j) { return app.months[j]; })
+          .attr("data-starthour", function(d, i) { return app.hours[i]; })
+          .attr("data-endhour", function(d, i) { return app.hours[i + 1]; })
           .attr("x", function(d, i) { return cellSize * i + 30; })
           .attr("y", function(d, i, j) { return j * cellSize + 20; })
-          .on('mouseover', function(d){
-            console.log(d);
+          .on('mouseover', function(d) {
+            d3.select(this).classed("selected", true);
+            app.showTooltip(d3.select(this)[0][0].id);
+          })
+          .on('mouseout', function(d){
+            d3.select(this).classed("selected", false);
+            app.hideTooltip();
           });
 
     // Add labels
@@ -137,7 +192,17 @@ app.run = function() {
 
     var hourLabels = svg.select(".month").selectAll('g')
       .append("text")
-      .text(function(d, i) { return app.hours[i]; })
+      .text(function(d, i) { 
+        if(i === 0) {
+          return app.hours[i] + 'am';
+        } else if (i === 12) {
+          return app.hours[i] + 'pm';
+        } else if (i === 24) {
+          return app.hours[i] + 'am';
+        } else {
+          return app.hours[i];
+        }
+      })
       .attr("class", "label hours")
       .attr("x", function(d, i, j) {
         var labelVal = app.hours[i];

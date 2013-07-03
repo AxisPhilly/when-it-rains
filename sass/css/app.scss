@@ -5,8 +5,14 @@
   shape-rendering: crispEdges;
 }
 .hour {
+  cursor: pointer;
   stroke: #fff;
   stroke-width: 1px;
+
+  &.selected {
+    stroke: yellow;
+    stroke-width: 3px;
+  }
 }
 .step0 {
   fill: #fff;
@@ -70,4 +76,11 @@
   .gage {
     fill: #333;
   }
+}
+#tooltip {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #444;
+  font-size: 12px;
+  padding: 5px;
 }
