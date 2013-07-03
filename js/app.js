@@ -227,27 +227,27 @@ app.createChart = function() {
 
     // Add annotation
     app.svg.append("g")
-        .attr("class", "annotation")
+        .attr("class", "annotation chart")
       .append("rect")
         .attr("x", 495)
         .attr("y", 155)
         .attr("width", function() { return cellSize * 6; })
         .attr("height", function() { return cellSize * 5; });
 
-    d3.select(".annotation")
+    d3.select(".annotation.chart")
       .append("line")
         .attr("x1", 525)
         .attr("y1", 305)
         .attr("x2", 525)
         .attr("y2", 390);
 
-    d3.select(".annotation")
+    d3.select(".annotation.chart")
       .append("text")
       .attr("x", 495)
       .attr("y", 402)
-      .text("The hours with the most intense rain are during the");
+      .text("The most rain has fallen during the");
 
-    d3.select(".annotation")
+    d3.select(".annotation.chart")
       .append("text")
       .attr("x", 495)
       .attr("y", 417)
