@@ -59,6 +59,42 @@ app.hours = [
   '12'
 ];
 
+// Create rain gage map
+app.createMap = function() {
+  d3.json('/data/city-with-gages-topo.json', function(error, topology) {
+    var projection = d3.geo.mercator()
+      .center([-75.118, 40.0020])
+      .scale(40000)
+      .translate([120, 140]);
+
+    var path = d3.geo.path()
+      .projection(projection)
+      .pointRadius(2);
+
+    var svg = d3.select("#map").append("svg");
+
+    // Add city limits
+    svg.append("path")
+        .datum(topojson.feature(topology, topology.objects['city-limits']))
+        .attr("d", path)
+        .attr("class", "map");
+
+    // Add rain gage locations
+    svg.append("path")
+        .datum(topojson.feature(topology, topology.objects['rain-gages-with-header']))
+        .attr("d", path)
+        .attr("pointRadis", 40)
+        .attr("class", "gage");
+
+    // Add annotation
+    svg.append("text")
+      .text("Rain gage locations")
+      .attr("x", 130)
+      .attr("y", 200)
+      .attr("class", "annotation");
+  });
+};
+
 app.run = function() {
   // Dimensions
   var width = 752,
@@ -150,4 +186,6 @@ app.run = function() {
         .text("Source: Philadelphia Water Department, City of Philadelphia");
 
   });
+
+  app.createMap();
 };
