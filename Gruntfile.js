@@ -22,8 +22,22 @@ module.exports = function(grunt) {
       },
       lib: {
         files: {
-          'www/js/app.libraries.min.<%= pkg.version %>.js': 'js/lib/*'
+          'www/js/app.libraries.min.<%= pkg.version %>.js': [
+            'js/lib/fastclick.js',
+            'js/lib/foundation.js',
+            'js/lib/topojson.js',
+            'js/lib/underscore.min.js',
+            'js/lib/d3.v3.min.js'
+          ]
         }
+      }
+    },
+    concat: {
+      dist: {
+        src: [
+          'css/lib/site.css'
+          ],
+        dest: 'www/css/app.libraries.<%= pkg.version %>.css'
       }
     },
     sass: {
@@ -39,6 +53,22 @@ module.exports = function(grunt) {
     shell: {
       build: {
         command: 'NODE_ENV=production PORT=3001 node build.js'
+      }
+    },
+    copy: {
+      main: {
+        files: [
+          // Even though most of the files in css/lib and js/lib 
+          // are concatenated into app.libraries.css and app.libararies.js, respectively,
+          // we'll copy the individuals files to www so that conditional css files
+          // and to js libraries like modernizr can still be referenced individually
+          {expand: true, src: ['css/lib/*'], dest: 'www/'},
+          {expand: true, src: ['js/lib/*'], dest: 'www/'},
+          {expand: true, src: ['img/lib/**'], dest: 'www/'},
+          {expand: true, src: ['img/**'], dest: 'www/'},
+          {expand: true, src: ['data/**'], dest: 'www/'}
+
+        ]
       }
     },
     s3: {
@@ -65,6 +95,10 @@ module.exports = function(grunt) {
         {
           src: 'www/data/*',
           dest: '<%= pkg.name %>/data'
+        },
+        {
+          src: 'www/img/*',
+          dest: '<%= pkg.name %>/img'
         }
       ]
     }
@@ -74,11 +108,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-s3');
 
   grunt.registerTask('default', ''); // Intentionally left blank in the interest of being explicit
 
-  grunt.registerTask('build', ['jshint', 'uglify', 'sass', 'shell']);
+  grunt.registerTask('build', ['jshint', 'uglify', 'sass', 'concat', 'copy', 'shell']);
   grunt.registerTask('deploy', ['s3']);
 
 };
