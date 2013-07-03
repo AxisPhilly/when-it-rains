@@ -1,8 +1,8 @@
 #chart {
-  margin: 0 auto;
   font: 11px sans-serif;
   width: 752px;
   shape-rendering: crispEdges;
+  overflow: visible;
 }
 .hour {
   cursor: pointer;
@@ -104,4 +104,6 @@
   border: 1px solid #444;
   font-size: 12px;
   padding: 5px;
+  min-width: 150px;
+  max-height: 100px;
 }

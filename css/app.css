@@ -1,8 +1,8 @@
 #chart {
-  margin: 0 auto;
   font: 11px sans-serif;
   width: 752px;
-  shape-rendering: crispEdges; }
+  shape-rendering: crispEdges;
+  overflow: visible; }
 
 .hour {
   cursor: pointer;
@@ -68,10 +68,10 @@
   height: 300px;
   width: 240px; }
   #map path {
-    stroke: #333;
-    fill: none; }
+    stroke: none;
+    fill: #cde2e2; }
   #map .gage {
-    fill: #333; }
+    fill: #666; }
 
 .source {
   fill: #666; }
@@ -91,4 +91,6 @@
   background: #fff;
   border: 1px solid #444;
   font-size: 12px;
-  padding: 5px; }
+  padding: 5px;
+  min-width: 150px;
+  max-height: 100px; }
