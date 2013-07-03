@@ -61,7 +61,7 @@ app.hours = [
 
 app.run = function() {
   // Dimensions
-  var width = 800,
+  var width = 752,
       height = 450,
       cellSize = 30; // cell size
 
