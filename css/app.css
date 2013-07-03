@@ -73,6 +73,19 @@
   #map .gage {
     fill: #333; }
 
+.source {
+  fill: #666; }
+
+.key {
+  fill: #333; }
+
+.key path {
+  display: none; }
+
+.key line {
+  stroke: #333;
+  shape-rendering: crispEdges; }
+
 #tooltip {
   position: absolute;
   background: #fff;
