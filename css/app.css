@@ -44,10 +44,19 @@
   fill: #666;
   font: 11px sans-serif; }
   .annotation rect {
-    fill: transparent;
+    fill: none;
     stroke-width: 1px;
-    stroke: #222; }
+    stroke: #666; }
   .annotation line {
-    fill: transparent;
+    fill: none;
     stroke-width: 1px;
-    stroke: #222; }
+    stroke: #666; }
+
+#map {
+  height: 300px;
+  width: 400px; }
+  #map path {
+    stroke: #333;
+    fill: none; }
+  #map .gage {
+    fill: #333; }

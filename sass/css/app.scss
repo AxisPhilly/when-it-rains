@@ -58,3 +58,16 @@
     stroke: #666;
   }
 }
+#map {
+  height: 300px;
+  width: 400px;
+
+  path {
+    stroke: #333;
+    fill: none;
+  }
+
+  .gage {
+    fill: #333;
+  }
+}
