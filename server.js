@@ -24,7 +24,7 @@ app.use('/data', express.static(__dirname + '/data'));
 
 app.get('/', function(req, res){
   res.render('index', {
-    title: 'The Wettest Hour | AxisPhilly',
+    title: 'When it rains | AxisPhilly',
     env: app.settings.env,
     version: pkg.version
   });
@@ -32,7 +32,7 @@ app.get('/', function(req, res){
 
 app.get('/embed', function(req, res){
   res.render('embed', {
-    title: 'The Wettest Hour | AxisPhilly',
+    title: 'When it rains | AxisPhilly',
     env: app.settings.env,
     version: pkg.version
   });
