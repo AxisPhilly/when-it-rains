@@ -5,36 +5,50 @@
   shape-rendering: crispEdges;
 }
 .hour {
+  cursor: pointer;
   stroke: #fff;
   stroke-width: 1px;
+
+  &.selected {
+    stroke: yellow;
+    stroke-width: 3px;
+  }
 }
 .step0 {
   fill: #fff;
   color: #fff;
 }
 .step1 {
-  fill: #eff3ff;
-  color: #eff3ff;
+  fill: #f7fbff;
+  color: #f7fbff;
 }
 .step2 {
+  fill: #deebf7;
+  color: #deebf7;
+}
+.step3 {
   fill: #c6dbef;
   color: #c6dbef;
 }
-.step3 {
+.step4 {
   fill: #9ecae1;
   color: #9ecae1;
 }
-.step4 {
+.step5 {
   fill: #6baed6;
   color: #6baed6;
 }
-.step5 {
-  fill: #3182bd;
-  color: #3182bd;
-}
 .step6 {
-  fill: #08519c;
-  color: #08519c;
+  fill: #4292c6;
+  color: #4292c6;
+}
+.step7 {
+  fill: #2171b5;
+  color: #2171b5;
+}
+.step8 {
+  fill: #084594;
+  color: #084594;
 }
 .label {
   &.month, &.hours {
@@ -60,7 +74,7 @@
 }
 #map {
   height: 300px;
-  width: 400px;
+  width: 240px;
 
   path {
     stroke: none;
@@ -70,4 +84,11 @@
   .gage {
     fill: #666;
   }
+}
+#tooltip {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #444;
+  font-size: 12px;
+  padding: 5px;
 }
