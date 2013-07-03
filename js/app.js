@@ -67,7 +67,7 @@ app.hours = [
 
 app.showTooltip =  function(hourId) {
   var contents = app.getContents(hourId),
-      $hourPos = $('#' + hourId).position();
+      $hourPos = $('#' + hourId).offset();
 
   if ($('#tooltip').length) {
       $('#tooltip').html(contents).show();
@@ -78,9 +78,11 @@ app.showTooltip =  function(hourId) {
       }).appendTo('#chart').show();
     }
 
+  var offset = $('#chart').offset();
+
   $(document).mousemove(function(e){
-    var posX = $hourPos.left - 55;
-        posY = $hourPos.top - 60;
+    var posX = e.pageX - offset.left - 60;
+        posY = e.pageY - offset.top - 70;
 
     $('#tooltip').css({ left: posX, top: posY });
   });
@@ -107,7 +109,7 @@ app.getContents = function(id) {
 // Create rain gage map
 app.createMap = function() {
   // adapted from http://bost.ocks.org/mike/map/
-  d3.json('/data/city-with-gages-topo.json', function(error, topology) {
+  d3.json('data/city-with-gages-topo.json', function(error, topology) {
     var projection = d3.geo.mercator()
       .center([-75.118, 40.0020])
       .scale(40000)
@@ -159,7 +161,7 @@ app.createChart = function() {
     .append("g");
 
   // Get the data
-  d3.json('/data/rain.json', function(data) {
+  d3.json('data/rain.json', function(data) {
     // Add cells for every hour of every month
     var months = app.svg.selectAll(".month")
           .data(data)
@@ -301,11 +303,14 @@ app.createLegend = function() {
   g.call(xAxis).append("text")
       .attr("class", "caption")
       .attr("y", -6)
-      .text("Inches of rainfall");
+      .text("Inches of rainfall since 1990");
 };
 
 app.run = function() {
   app.createChart();
-  app.createMap();
   app.createLegend();
+
+  // We'll use an image created from the d3 svg instead of drawing the map everytime
+  // app.createMap();
+  
 };
