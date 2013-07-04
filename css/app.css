@@ -4,6 +4,9 @@
   shape-rendering: crispEdges;
   overflow: visible; }
 
+cite {
+  font-size: 16px; }
+
 .hour {
   cursor: pointer;
   stroke: #fff;
